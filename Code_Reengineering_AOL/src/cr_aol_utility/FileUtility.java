@@ -1,4 +1,4 @@
-package cr_aol;
+package cr_aol_utility;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,12 +11,12 @@ import cr_aol_model.ExchangeStudent;
 import cr_aol_model.RegularStudent;
 import cr_aol_model.Student;
 
-public class Utility {
+public class FileUtility {
 	private static String fileLocation = System.getProperty("user.dir")+"/bin/Students.csv";
-	private static Scanner sc = new Scanner(System.in);
+	static Scanner sc = new Scanner(System.in);
 
-	public Utility() {
-		super();
+	public FileUtility() {
+		
 	}
 	
 	public static ArrayList<Student> readAll(){
@@ -58,24 +58,4 @@ public class Utility {
 			System.out.println("Data save failed!");
 		}
 	}
-	
-	public static void printLine() {
-		for(int i=0;i<118;i++)System.out.print("=");
-		System.out.println();
-	}
-	
-	public static void pressEnter() {
-		System.out.println("Press enter to continue...");
-		sc.nextLine();
-	}
-	
-	public static int inputInt() {
-		int input = -1;
-		try {
-			input = sc.nextInt();
-		}catch(Exception ex) {}
-		sc.nextLine();
-		return input;
-	}
-
 }
