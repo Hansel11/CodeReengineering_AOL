@@ -22,12 +22,6 @@ public class RegularStudent extends Student{
 	}
 
 	@Override
-	public void printData() {
-		System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20s | %-20s |\n"
-				,id,name,major,semester,internCompany,"-");
-	}
-
-	@Override
 	public String saveData() {
 		String str = super.saveData();
 		return str+internCompany+",-"+"\n";

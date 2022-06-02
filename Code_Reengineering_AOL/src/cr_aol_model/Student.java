@@ -20,8 +20,6 @@ public abstract class Student{
 		this.semester = semester;
 	}
 	
-	public abstract void printData();
-	
 	public String saveData() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(id);
@@ -40,6 +38,14 @@ public abstract class Student{
 		String val = "22";
 		for(int i=0;i<3;i++)val+=rand.nextInt(10);
 		return val;
+	}
+
+	public int getSemester() {
+		return semester;
+	}
+
+	public void setSemester(int semester) {
+		this.semester = semester;
 	}
 
 	public String getId() {

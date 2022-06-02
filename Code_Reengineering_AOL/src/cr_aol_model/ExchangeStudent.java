@@ -13,18 +13,12 @@ public class ExchangeStudent extends Student{
 		this.exchangeCountry = exchangeCountry;
 	}
 
-	public String getOriginCountry() {
+	public String getExchangeCountry() {
 		return exchangeCountry;
 	}
 
-	public void setOriginCountry(String originCountry) {
-		this.exchangeCountry = originCountry;
-	}
-
-	@Override
-	public void printData() {
-		System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20s | %-20s |\n"
-				,id,name,major,semester,"-",exchangeCountry);
+	public void setExchangeCountry(String exchangeCountry) {
+		this.exchangeCountry = exchangeCountry;
 	}
 
 	@Override

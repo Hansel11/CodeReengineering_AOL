@@ -1,5 +1,9 @@
 package cr_aol;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -9,81 +13,133 @@ import cr_aol_model.Student;
 
 
 public class Program {
-	
+	private String fileLocation = System.getProperty("user.dir")+"/bin/Students.csv";
 	Scanner sc = new Scanner(System.in);
 	ArrayList<Student> students;
 
 	public Program() {
-		students = Utility.readAll();
-		while(true)studentMenu();
+		studentMenu();
 	}
 	
 	private void studentMenu() {
-		System.out.println("Manage Student");
-		System.out.println("==================");
-		System.out.println("1. View Students");
-		System.out.println("2. Insert Student");
-		System.out.println("3. Delete Student");
-		System.out.println("4. Save Data");
-		System.out.println("5. Exit");
-		System.out.println("==================");
-		int opt = -1;
-		do {
-			System.out.print(">> ");
-			opt = Utility.inputInt();
-		}while(opt < 1 || opt > 5);
-		
-		switch(opt){
-		case 1:
-			viewStudent();
-			break;
-		case 2:
-			insertStudent();
-			break;
-		case 3:
-			deleteStudent();
-			break;
-		case 4:
-			saveData();
-			break;
-		case 5:
-			saveData();
-			sc.close();
-			System.exit(0);
-			return;
+		try {
+			students = new ArrayList<>();
+			BufferedReader br = new BufferedReader(new FileReader(fileLocation));
+			String line;
+			while ((line = br.readLine())!= null) {
+				String[] temp = line.split(",");
+				if(temp[5].equals("-")) {
+					RegularStudent reg = new RegularStudent
+							(temp[0],temp[1],temp[2],Integer.valueOf(temp[3]),temp[4]);
+					students.add(reg);
+				}
+				else {
+					ExchangeStudent exc = new ExchangeStudent
+							(temp[0],temp[1],temp[2],Integer.valueOf(temp[3]),temp[5]);
+					students.add(exc);
+				}
+			}
+			br.close();
+		} catch (IOException e) {
+		}
+		while(true) {
+			System.out.println("Manage Student");
+			System.out.println("==================");
+			System.out.println("1. View Students");
+			System.out.println("2. Insert Student");
+			System.out.println("3. Delete Student");
+			System.out.println("4. Save Data");
+			System.out.println("5. Exit");
+			System.out.println("==================");
+			int opt = -1;
+			do {
+				System.out.print(">> ");
+				opt = inputInt();
+			}while(opt < 1 || opt > 5);
+			
+			switch(opt){
+			case 1:
+				processOption("view");
+				break;
+			case 2:
+				processOption("insert");
+				break;
+			case 3:
+				processOption("delete");
+				break;
+			case 4:
+				processOption("save");
+				break;
+			case 5:
+				processOption("exit");
+			}
 		}
 	}
 	
-	private void saveData() {
-		Utility.save(students);
-		Utility.pressEnter();
-	}
-
-	private void printAllStudents() {
-		System.out.println();
-		System.out.println("Student List");
-		Utility.printLine();
-		System.out.printf("| No. | %-5s | %-20s | %-20s | %-8s | %-20s | %-20s |\n"
-				,"ID","Name","Major","Semester","Intern Company","Exchange Country");
-		Utility.printLine();
-		int i = 1;
-		for (Student student : students) {
-			System.out.printf("| %2s. ",i);
-			i++;
-			student.printData();
+	private void processOption(String option) {
+		if(option.equals("view")) {
+			viewStudent();
+		}if(option.equals("insert")) {
+			insertStudent();
+		}if(option.equals("delete")) {
+			deleteStudent();
+		}if(option.equals("save")) {
+			saveData();
+		}if(option.equals("exit")) {
+			exitProgram();
 		}
-		Utility.printLine();
+	}
+	
+	private void exitProgram() {
+		saveData();
+		sc.close();
+		System.exit(0);
+		return;
+	}
+	
+	private void saveData() {
+		save(students);
+		pressEnter();
+	}
+	
+	private void printOneStudent(Student student) {
+		System.out.printf("| %-5s | %-20s | %-20s | %-8d |\n"
+				,student.getId(),student.getName(),student.getMajor(),student.getSemester());
 	}
 
 	private void deleteStudent() {
 		if(students.size()==0)System.out.println("There are no students to delete.");
 		else {
-			printAllStudents();
+			System.out.println();
+			System.out.println("Student List");
+			for(int i=0;i<118;i++)System.out.print("=");
+			System.out.println();
+			System.out.printf("| No. | %-5s | %-20s | %-20s | %-8s | %-20s | %-20s |\n"
+					,"ID","Name","Major","Semester","Intern Company","Exchange Country");
+			for(int i=0;i<118;i++)System.out.print("=");
+			System.out.println();
+			int j = 1;
+			for (Student student : students) {
+				System.out.printf("| %2s. ",j);
+				j++;
+				if(student instanceof RegularStudent) {
+					RegularStudent rs = (RegularStudent) student;
+					System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20s | %-20s |\n"
+				,rs.getId(),rs.getName(),rs.getMajor(),rs.getSemester(),rs.getInternCompany(),"-");
+				}
+				if(student instanceof ExchangeStudent) {
+					ExchangeStudent es = (ExchangeStudent) student;
+					System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20s | %-20s |\n"
+				,es.getId(),es.getName(),es.getMajor(),es.getSemester(),"-",es.getExchangeCountry());
+				}
+			}
+			for(int i=0;i<118;i++)System.out.print("=");
+			System.out.println();
 			int opt = -1;
 			int size = students.size();
 			do {
 				System.out.printf("Input student to delete [1 - %d] (Press 0 to cancel): ",size);
-				opt = Utility.inputInt();
+				opt = inputInt();
 			}while(opt<0 || opt>size);
 			
 			if(opt != 0) {
@@ -91,20 +147,63 @@ public class Program {
 				System.out.println("Student successfully removed!");
 			}
 		}
-		Utility.pressEnter();
-	}
-	
-	private void updateStudent() {
-		
+		pressEnter();
 	}
 	
 	private void viewStudent() {
 		if(students.size()==0)System.out.println("There are no students to view.");
-		else printAllStudents();
-		Utility.pressEnter();
+		else {
+			System.out.println();
+			System.out.println("Student List");
+			for(int i=0;i<118;i++)System.out.print("=");
+			System.out.println();
+			System.out.printf("| No. | %-5s | %-20s | %-20s | %-8s | %-20s | %-20s |\n"
+					,"ID","Name","Major","Semester","Intern Company","Exchange Country");
+			for(int i=0;i<118;i++)System.out.print("=");
+			System.out.println();
+			int j = 1;
+			for (Student student : students) {
+				System.out.printf("| %2s. ",j);
+				j++;
+				if(student instanceof RegularStudent) {
+					RegularStudent rs = (RegularStudent) student;
+					System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20s | %-20s |\n"
+				,rs.getId(),rs.getName(),rs.getMajor(),rs.getSemester(),rs.getInternCompany(),"-");
+				}
+				if(student instanceof ExchangeStudent) {
+					ExchangeStudent es = (ExchangeStudent) student;
+					System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20s | %-20s |\n"
+				,es.getId(),es.getName(),es.getMajor(),es.getSemester(),"-",es.getExchangeCountry());
+				}
+			}
+			for(int i=0;i<118;i++)System.out.print("=");
+			System.out.println();
+		}
+		pressEnter();
+	}
+	
+	private Student createStudent(String type, String name, String major, int semester, String company, String country) {
+		switch(type) {
+		case "Regular":
+			RegularStudent reg = new RegularStudent(name,major,semester,company);
+			return reg;
+			
+		case "Exchange":
+			ExchangeStudent exc = new ExchangeStudent(name,major,semester,country);
+			return exc;
+		}
+		return null;
 	}
 
 	private void insertStudent() {
+//		RegularStudent(String id, String name, String major, int semester, String internCompany) {
+//			super(id, name, major, semester);
+//			this.internCompany = internCompany;
+//		}
+//		ExchangeStudent(String id, String name, String major, int semester, String exchangeCountry) {
+//			super(id, name, major, semester);
+//			this.exchangeCountry = exchangeCountry;
+//		}
 		String type = "";
 		do {
 			System.out.print("Input student type [Regular | Exchange]: ");
@@ -126,37 +225,65 @@ public class Program {
 		int semester = -1;
 		do {
 			System.out.print("Input student semester [1 - 8]: ");
-			semester = Utility.inputInt();
+			semester = inputInt();
 		}while(semester<1 || semester>8);
 		
+		String company = "";
+		String country = "";
 		switch(type) {
 		case "Regular":
-			String company = "";
 			do {
 				System.out.print("Input student intern company [3..20]: ");
 				company = sc.nextLine();
 			}while(company.length()<3 || company.length()>20);
-			RegularStudent reg = new RegularStudent(name,major,semester,company);
-			students.add(reg);
 			break;
 			
 		case "Exchange":
-			String country = "";
 			do {
 				System.out.print("Input student exchange country [3..20]: ");
 				country = sc.nextLine();
 			}while(country.length()<3 || country.length()>20);
-			ExchangeStudent exc = new ExchangeStudent(name,major,semester,country);
-			students.add(exc);
 			break;
 		}
 		
+		Student student = createStudent(type, name, major, semester, company, country);
+		students.add(student);
+		
 		System.out.println("Student successfully added!");
-		Utility.pressEnter();
+		pressEnter();
 	}
-
+	
+	public void save(ArrayList<Student> students) {
+		try {
+			FileWriter writer = new FileWriter(fileLocation);
+			for (Student student : students) {
+				writer.write(student.saveData());
+			}
+			writer.flush();
+			writer.close();
+			System.out.println("Data successfully saved!");
+		} catch (IOException e) {
+			System.out.println("Data save failed!");
+		}
+	}
+	
+	public void pressEnter() {
+		System.out.println("Press enter to continue...");
+		sc.nextLine();
+	}
+	
+	public int inputInt() {
+		int input = -1;
+		try {
+			input = sc.nextInt();
+		}catch(Exception ex) {}
+		sc.nextLine();
+		return input;
+	}
+	
 	public static void main(String[] args) {
 		new Program();
 	}
+	
 
 }
