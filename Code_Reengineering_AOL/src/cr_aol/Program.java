@@ -6,6 +6,8 @@ import java.util.Scanner;
 import cr_aol_model.ExchangeStudent;
 import cr_aol_model.RegularStudent;
 import cr_aol_model.Student;
+import cr_aol_utility.IOUtility;
+import cr_aol_utility.FileUtility;
 
 
 public class Program {
@@ -14,65 +16,71 @@ public class Program {
 	ArrayList<Student> students;
 
 	public Program() {
-		students = Utility.readAll();
-		while(true)studentMenu();
+		studentMenu();
 	}
 	
 	private void studentMenu() {
-		System.out.println("Manage Student");
-		System.out.println("==================");
-		System.out.println("1. View Students");
-		System.out.println("2. Insert Student");
-		System.out.println("3. Delete Student");
-		System.out.println("4. Save Data");
-		System.out.println("5. Exit");
-		System.out.println("==================");
-		int opt = -1;
-		do {
-			System.out.print(">> ");
-			opt = Utility.inputInt();
-		}while(opt < 1 || opt > 5);
-		
-		switch(opt){
-		case 1:
-			viewStudent();
-			break;
-		case 2:
-			insertStudent();
-			break;
-		case 3:
-			deleteStudent();
-			break;
-		case 4:
-			saveData();
-			break;
-		case 5:
-			saveData();
-			sc.close();
-			System.exit(0);
-			return;
+		students = FileUtility.readAll();
+		while(true) {
+			System.out.println("Manage Student");
+			System.out.println("==================");
+			System.out.println("1. View Students");
+			System.out.println("2. Insert Student");
+			System.out.println("3. Delete Student");
+			System.out.println("4. Save Data");
+			System.out.println("5. Exit");
+			System.out.println("==================");
+			int opt = -1;
+			do {
+				System.out.print(">> ");
+				opt = IOUtility.inputInt();
+			}while(opt < 1 || opt > 5);
+			
+			switch(opt){
+			case 1:
+				viewStudent();
+				break;
+			case 2:
+				insertStudent();
+				break;
+			case 3:
+				deleteStudent();
+				break;
+			case 4:
+				saveData();
+				break;
+			case 5:
+				exitProgram();
+				return;
+			}
 		}
 	}
 	
+	private void exitProgram() {
+		saveData();
+		sc.close();
+		System.exit(0);
+	}
+	
 	private void saveData() {
-		Utility.save(students);
-		Utility.pressEnter();
+		FileUtility.save(students);
+		IOUtility.pressEnter();
 	}
 
 	private void printAllStudents() {
 		System.out.println();
 		System.out.println("Student List");
-		Utility.printLine();
+		IOUtility.printLine();
 		System.out.printf("| No. | %-5s | %-20s | %-20s | %-8s | %-20s | %-20s |\n"
 				,"ID","Name","Major","Semester","Intern Company","Exchange Country");
-		Utility.printLine();
+		IOUtility.printLine();
 		int i = 1;
 		for (Student student : students) {
 			System.out.printf("| %2s. ",i);
 			i++;
 			student.printData();
 		}
-		Utility.printLine();
+		IOUtility.printLine();
 	}
 
 	private void deleteStudent() {
@@ -83,7 +91,7 @@ public class Program {
 			int size = students.size();
 			do {
 				System.out.printf("Input student to delete [1 - %d] (Press 0 to cancel): ",size);
-				opt = Utility.inputInt();
+				opt = IOUtility.inputInt();
 			}while(opt<0 || opt>size);
 			
 			if(opt != 0) {
@@ -91,20 +99,16 @@ public class Program {
 				System.out.println("Student successfully removed!");
 			}
 		}
-		Utility.pressEnter();
+		IOUtility.pressEnter();
 	}
 	
-	private void updateStudent() {
-		
-	}
-	
-	private void viewStudent() {
+	private void viewStudent() {		
 		if(students.size()==0)System.out.println("There are no students to view.");
 		else printAllStudents();
-		Utility.pressEnter();
+		IOUtility.pressEnter();
 	}
 
-	private void insertStudent() {
+	private Student createStudent() {
 		String type = "";
 		do {
 			System.out.print("Input student type [Regular | Exchange]: ");
@@ -126,7 +130,7 @@ public class Program {
 		int semester = -1;
 		do {
 			System.out.print("Input student semester [1 - 8]: ");
-			semester = Utility.inputInt();
+			semester = IOUtility.inputInt();
 		}while(semester<1 || semester>8);
 		
 		switch(type) {
@@ -136,9 +140,7 @@ public class Program {
 				System.out.print("Input student intern company [3..20]: ");
 				company = sc.nextLine();
 			}while(company.length()<3 || company.length()>20);
-			RegularStudent reg = new RegularStudent(name,major,semester,company);
-			students.add(reg);
-			break;
+			return new RegularStudent(name,major,semester,company);
 			
 		case "Exchange":
 			String country = "";
@@ -146,13 +148,16 @@ public class Program {
 				System.out.print("Input student exchange country [3..20]: ");
 				country = sc.nextLine();
 			}while(country.length()<3 || country.length()>20);
-			ExchangeStudent exc = new ExchangeStudent(name,major,semester,country);
-			students.add(exc);
-			break;
+			return new ExchangeStudent(name,major,semester,country);
 		}
 		
+		return null;
+	}
+	
+	private void insertStudent() {
+		students.add(createStudent());
 		System.out.println("Student successfully added!");
-		Utility.pressEnter();
+		IOUtility.pressEnter();
 	}
 
 	public static void main(String[] args) {
