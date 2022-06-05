@@ -71,8 +71,8 @@ public class Program {
 		System.out.println();
 		System.out.println("Student List");
 		IOUtility.printLine();
-		System.out.printf("| No. | %-5s | %-20s | %-20s | %-8s | %-20s | %-20s |\n"
-				,"ID","Name","Major","Semester","Intern Company","Exchange Country");
+		System.out.printf("| No. | %-5s | %-20s | %-20s | %-8s | %-20s | %-20s | %-20s |\n"
+				,"ID","Name","Major","Semester", "Total Hours Per Week", "Intern Company","Exchange Country");
 		IOUtility.printLine();
 		int i = 1;
 		for (Student student : students) {
@@ -133,6 +133,12 @@ public class Program {
 			semester = IOUtility.inputInt();
 		}while(semester<1 || semester>8);
 		
+		int totalHoursPerWeek = -1;
+		do {
+			System.out.print("Input student total hours per week [10 - 40]: ");
+			totalHoursPerWeek = IOUtility.inputInt();
+		}while(totalHoursPerWeek<10 || totalHoursPerWeek>40);
+		
 		switch(type) {
 		case "Regular":
 			String company = "";
@@ -140,7 +146,7 @@ public class Program {
 				System.out.print("Input student intern company [3..20]: ");
 				company = sc.nextLine();
 			}while(company.length()<3 || company.length()>20);
-			return new RegularStudent(name,major,semester,company);
+			return new RegularStudent(name,major,semester,totalHoursPerWeek,company);
 			
 		case "Exchange":
 			String country = "";
@@ -148,7 +154,7 @@ public class Program {
 				System.out.print("Input student exchange country [3..20]: ");
 				country = sc.nextLine();
 			}while(country.length()<3 || country.length()>20);
-			return new ExchangeStudent(name,major,semester,country);
+			return new ExchangeStudent(name,major,semester,totalHoursPerWeek,country);
 		}
 		
 		return null;

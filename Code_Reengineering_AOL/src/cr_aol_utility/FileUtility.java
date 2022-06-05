@@ -27,14 +27,14 @@ public class FileUtility {
 			String line;
 			while ((line = br.readLine())!= null) {
 				String[] temp = line.split(",");
-				if(temp[5].equals("-")) {
+				if(temp[6].equals("-")) {
 					RegularStudent reg = new RegularStudent
-							(temp[0],temp[1],temp[2],Integer.valueOf(temp[3]),temp[4]);
+							(temp[0],temp[1],temp[2],Integer.valueOf(temp[3]),Integer.valueOf(temp[4]),temp[5]);
 					students.add(reg);
 				}
 				else {
 					ExchangeStudent exc = new ExchangeStudent
-							(temp[0],temp[1],temp[2],Integer.valueOf(temp[3]),temp[5]);
+							(temp[0],temp[1],temp[2],Integer.valueOf(temp[3]),Integer.valueOf(temp[4]),temp[6]);
 					students.add(exc);
 				}
 			}

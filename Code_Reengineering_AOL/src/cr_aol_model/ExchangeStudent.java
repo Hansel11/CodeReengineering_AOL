@@ -1,15 +1,16 @@
 package cr_aol_model;
 
-public class ExchangeStudent extends Student{
+public class ExchangeStudent extends Student {
 	private String exchangeCountry;
 
-	public ExchangeStudent(String id, String name, String major, int semester, String exchangeCountry) {
-		super(id, name, major, semester);
+	public ExchangeStudent(String id, String name, String major, int semester, int totalHoursPerWeek,
+			String exchangeCountry) {
+		super(id, name, major, semester, totalHoursPerWeek);
 		this.exchangeCountry = exchangeCountry;
 	}
-	
-	public ExchangeStudent(String name, String major, int semester, String exchangeCountry) {
-		super(name, major, semester);
+
+	public ExchangeStudent(String name, String major, int semester, int totalHoursPerWeek, String exchangeCountry) {
+		super(name, major, semester, totalHoursPerWeek);
 		this.exchangeCountry = exchangeCountry;
 	}
 
@@ -23,13 +24,27 @@ public class ExchangeStudent extends Student{
 
 	@Override
 	public void printData() {
-		System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20s | %-20s |\n"
-				,id,name,major,semester,"-",exchangeCountry);
+		System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20d | %-20s | %-20s |\n", id, name, major, semester,
+				tuitionFee(), "-", exchangeCountry);
 	}
 
 	@Override
 	public String saveData() {
 		String str = super.saveData();
-		return str+"-,"+exchangeCountry+"\n";
+		return str + "-," + exchangeCountry + "\n";
+	}
+
+	@Override
+	public int tuitionFee() {
+
+		if (total() > 7500000) {
+			return (7 / 6) * total();
+		} else {
+			return total();
+		}
+	}
+
+	private int total() {
+		return this.totalHoursPerWeek * 250000;
 	}
 }
