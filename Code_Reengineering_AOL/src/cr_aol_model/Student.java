@@ -3,21 +3,24 @@ package cr_aol_model;
 import java.util.Random;
 
 public abstract class Student{
-	protected String id, name, major;
-	protected int semester;
+	public String id, name, major;
+	public int semester, totalHoursPerWeek;
+	public double gpa;
 	
-	public Student(String id, String name, String major, int semester) {
+	public Student(String id, String name, String major, int semester, int totalHoursPerWeek) {
 		this.id = id;
 		this.name = name;
 		this.major = major;
 		this.semester = semester;
+		this.totalHoursPerWeek = totalHoursPerWeek;
 	}
 
-	public Student(String name, String major, int semester) {
+	public Student(String name, String major, int semester, int totalHoursPerWeek) {
 		this.id = generateId();
 		this.name = name;
 		this.major = major;
 		this.semester = semester;
+		this.totalHoursPerWeek = totalHoursPerWeek;
 	}
 	
 	public String saveData() {
@@ -30,6 +33,8 @@ public abstract class Student{
 		sb.append(",");
 		sb.append(semester);
 		sb.append(",");
+		sb.append(totalHoursPerWeek);
+		sb.append(",");
 		return sb.toString(); 
 	}
 	
@@ -39,32 +44,6 @@ public abstract class Student{
 		for(int i=0;i<3;i++)val+=rand.nextInt(10);
 		return val;
 	}
-
-	public int getSemester() {
-		return semester;
-	}
-
-	public void setSemester(int semester) {
-		this.semester = semester;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getMajor() {
-		return major;
-	}
-
-	public void setMajor(String major) {
-		this.major = major;
-	}
+	
+	public abstract int tuitionFee();
 }

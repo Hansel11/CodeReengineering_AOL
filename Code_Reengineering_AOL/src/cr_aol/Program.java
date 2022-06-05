@@ -30,12 +30,12 @@ public class Program {
 				String[] temp = line.split(",");
 				if(temp[5].equals("-")) {
 					RegularStudent reg = new RegularStudent
-							(temp[0],temp[1],temp[2],Integer.valueOf(temp[3]),temp[4]);
+							(temp[0],temp[1],temp[2],Integer.valueOf(temp[3]),Integer.valueOf(temp[4]),temp[5]);
 					students.add(reg);
 				}
 				else {
 					ExchangeStudent exc = new ExchangeStudent
-							(temp[0],temp[1],temp[2],Integer.valueOf(temp[3]),temp[5]);
+							(temp[0],temp[1],temp[2],Integer.valueOf(temp[3]),Integer.valueOf(temp[4]),temp[6]);
 					students.add(exc);
 				}
 			}
@@ -103,8 +103,8 @@ public class Program {
 	}
 	
 	private void printOneStudent(Student student) {
-		System.out.printf("| %-5s | %-20s | %-20s | %-8d |\n"
-				,student.getId(),student.getName(),student.getMajor(),student.getSemester());
+		System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20d\n"
+				,student.id,student.name,student.major,student.semester,student.tuitionFee());
 	}
 
 	private void deleteStudent() {
@@ -112,11 +112,11 @@ public class Program {
 		else {
 			System.out.println();
 			System.out.println("Student List");
-			for(int i=0;i<118;i++)System.out.print("=");
+			for(int i=0;i<141;i++)System.out.print("=");
 			System.out.println();
-			System.out.printf("| No. | %-5s | %-20s | %-20s | %-8s | %-20s | %-20s |\n"
-					,"ID","Name","Major","Semester","Intern Company","Exchange Country");
-			for(int i=0;i<118;i++)System.out.print("=");
+			System.out.printf("| No. | %-5s | %-20s | %-20s | %-8s | %-20s | %-20s | %-20s |\n"
+					,"ID","Name","Major","Semester", "Total Hours Per Week", "Intern Company","Exchange Country");
+			for(int i=0;i<141;i++)System.out.print("=");
 			System.out.println();
 			int j = 1;
 			for (Student student : students) {
@@ -124,16 +124,16 @@ public class Program {
 				j++;
 				if(student instanceof RegularStudent) {
 					RegularStudent rs = (RegularStudent) student;
-					System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20s | %-20s |\n"
-				,rs.getId(),rs.getName(),rs.getMajor(),rs.getSemester(),rs.getInternCompany(),"-");
+					System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20d | %-20s | %-20s |\n"
+							,rs.id,rs.name,rs.major,rs.semester,rs.tuitionFee(),rs.internCompany,"-");
 				}
 				if(student instanceof ExchangeStudent) {
 					ExchangeStudent es = (ExchangeStudent) student;
-					System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20s | %-20s |\n"
-				,es.getId(),es.getName(),es.getMajor(),es.getSemester(),"-",es.getExchangeCountry());
+					System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20d | %-20s | %-20s |\n"
+							,es.id,es.name,es.major,es.semester,es.tuitionFee(),"-",es.exchangeCountry);
 				}
 			}
-			for(int i=0;i<118;i++)System.out.print("=");
+			for(int i=0;i<141;i++)System.out.print("=");
 			System.out.println();
 			int opt = -1;
 			int size = students.size();
@@ -155,11 +155,11 @@ public class Program {
 		else {
 			System.out.println();
 			System.out.println("Student List");
-			for(int i=0;i<118;i++)System.out.print("=");
+			for(int i=0;i<141;i++)System.out.print("=");
 			System.out.println();
-			System.out.printf("| No. | %-5s | %-20s | %-20s | %-8s | %-20s | %-20s |\n"
-					,"ID","Name","Major","Semester","Intern Company","Exchange Country");
-			for(int i=0;i<118;i++)System.out.print("=");
+			System.out.printf("| No. | %-5s | %-20s | %-20s | %-8s | %-20s | %-20s | %-20s |\n"
+					,"ID","Name","Major","Semester", "Tuition Fee", "Intern Company","Exchange Country");
+			for(int i=0;i<141;i++)System.out.print("=");
 			System.out.println();
 			int j = 1;
 			for (Student student : students) {
@@ -167,29 +167,29 @@ public class Program {
 				j++;
 				if(student instanceof RegularStudent) {
 					RegularStudent rs = (RegularStudent) student;
-					System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20s | %-20s |\n"
-				,rs.getId(),rs.getName(),rs.getMajor(),rs.getSemester(),rs.getInternCompany(),"-");
+					System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20d | %-20s | %-20s |\n"
+				,rs.id,rs.name,rs.major,rs.semester,rs.tuitionFee(),rs.internCompany,"-");
 				}
 				if(student instanceof ExchangeStudent) {
 					ExchangeStudent es = (ExchangeStudent) student;
-					System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20s | %-20s |\n"
-				,es.getId(),es.getName(),es.getMajor(),es.getSemester(),"-",es.getExchangeCountry());
+					System.out.printf("| %-5s | %-20s | %-20s | %-8d | %-20d | %-20s | %-20s |\n"
+				,es.id,es.name,es.major,es.semester,es.tuitionFee(),"-",es.exchangeCountry);
 				}
 			}
-			for(int i=0;i<118;i++)System.out.print("=");
+			for(int i=0;i<141;i++)System.out.print("=");
 			System.out.println();
 		}
 		pressEnter();
 	}
 	
-	private Student createStudent(String type, String name, String major, int semester, String company, String country) {
+	private Student createStudent(String type, String name, String major, int semester, int totalHoursPerWeek, String company, String country) {
 		switch(type) {
 		case "Regular":
-			RegularStudent reg = new RegularStudent(name,major,semester,company);
+			RegularStudent reg = new RegularStudent(name,major,semester, totalHoursPerWeek, company);
 			return reg;
 			
 		case "Exchange":
-			ExchangeStudent exc = new ExchangeStudent(name,major,semester,country);
+			ExchangeStudent exc = new ExchangeStudent(name,major,semester, totalHoursPerWeek, country);
 			return exc;
 		}
 		return null;
@@ -228,6 +228,12 @@ public class Program {
 			semester = inputInt();
 		}while(semester<1 || semester>8);
 		
+		int totalHoursPerWeek = -1;
+		do {
+			System.out.print("Input student total hours per week [10 - 40]: ");
+			totalHoursPerWeek = inputInt();
+		}while(totalHoursPerWeek<10 || totalHoursPerWeek>40);
+		
 		String company = "";
 		String country = "";
 		switch(type) {
@@ -246,7 +252,7 @@ public class Program {
 			break;
 		}
 		
-		Student student = createStudent(type, name, major, semester, company, country);
+		Student student = createStudent(type, name, major, semester, totalHoursPerWeek, company, country);
 		students.add(student);
 		
 		System.out.println("Student successfully added!");

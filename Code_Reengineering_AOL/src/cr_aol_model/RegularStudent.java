@@ -1,23 +1,15 @@
 package cr_aol_model;
 
 public class RegularStudent extends Student{
-	private String internCompany;
+	public String internCompany;
 	
-	public RegularStudent(String id, String name, String major, int semester, String internCompany) {
-		super(id, name, major, semester);
+	public RegularStudent(String id, String name, String major, int semester, int totalHoursPerWeek, String internCompany) {
+		super(id, name, major, semester, totalHoursPerWeek);
 		this.internCompany = internCompany;
 	}
 
-	public RegularStudent(String name, String major, int semester, String internCompany) {
-		super(name, major, semester);
-		this.internCompany = internCompany;
-	}
-	
-	public String getInternCompany() {
-		return internCompany;
-	}
-
-	public void setInternCompany(String internCompany) {
+	public RegularStudent(String name, String major, int semester, int totalHoursPerWeek, String internCompany) {
+		super(name, major, semester, totalHoursPerWeek);
 		this.internCompany = internCompany;
 	}
 
@@ -25,5 +17,17 @@ public class RegularStudent extends Student{
 	public String saveData() {
 		String str = super.saveData();
 		return str+internCompany+",-"+"\n";
+	}
+	
+	@Override
+	public int tuitionFee() {
+		
+		int total = this.totalHoursPerWeek * 200000;
+		if(total > 6000000) {
+			return (6/5)*total;
+		}
+		else {
+			return total;
+		}
 	}
 }
