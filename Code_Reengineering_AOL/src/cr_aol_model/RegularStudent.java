@@ -38,7 +38,7 @@ public class RegularStudent extends Student {
 	public int tuitionFee() {
 
 		if (total() > 6000000) {
-			return (6 / 5) * total();
+			return total() * 6/5;
 		} else {
 			return total();
 		}
