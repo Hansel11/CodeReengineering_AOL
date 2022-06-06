@@ -2,6 +2,7 @@ package cr_aol_model;
 
 public class ExchangeStudent extends Student{
 	public String exchangeCountry;
+	public String universityName;
 
 	public ExchangeStudent(String id, String name, String major, int semester, int totalHoursPerWeek, String exchangeCountry) {
 		super(id, name, major, semester, totalHoursPerWeek);

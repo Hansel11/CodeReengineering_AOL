@@ -99,7 +99,8 @@ public class Program {
 	
 	private void saveData() {
 		save(students);
-		pressEnter();
+		System.out.println("Press enter to continue...");
+		sc.nextLine();
 	}
 	
 	private void printOneStudent(Student student) {
@@ -147,7 +148,8 @@ public class Program {
 				System.out.println("Student successfully removed!");
 			}
 		}
-		pressEnter();
+		System.out.println("Press enter to continue...");
+		sc.nextLine();
 	}
 	
 	private void viewStudent() {
@@ -179,7 +181,8 @@ public class Program {
 			for(int i=0;i<141;i++)System.out.print("=");
 			System.out.println();
 		}
-		pressEnter();
+		System.out.println("Press enter to continue...");
+		sc.nextLine();
 	}
 	
 	private Student createStudent(String type, String name, String major, int semester, int totalHoursPerWeek, String company, String country) {
@@ -256,7 +259,8 @@ public class Program {
 		students.add(student);
 		
 		System.out.println("Student successfully added!");
-		pressEnter();
+		System.out.println("Press enter to continue...");
+		sc.nextLine();
 	}
 	
 	public void save(ArrayList<Student> students) {
@@ -271,11 +275,6 @@ public class Program {
 		} catch (IOException e) {
 			System.out.println("Data save failed!");
 		}
-	}
-	
-	public void pressEnter() {
-		System.out.println("Press enter to continue...");
-		sc.nextLine();
 	}
 	
 	public int inputInt() {
