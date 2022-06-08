@@ -24,7 +24,7 @@ public class RegularStudent extends Student{
 		
 		int total = this.totalHoursPerWeek * 200000;
 		if(total > 6000000) {
-			return (6/5)*total;
+			return (int)((double)total * 1.2);
 		}
 		else {
 			return total;

@@ -116,7 +116,7 @@ public class Program {
 			for(int i=0;i<141;i++)System.out.print("=");
 			System.out.println();
 			System.out.printf("| No. | %-5s | %-20s | %-20s | %-8s | %-20s | %-20s | %-20s |\n"
-					,"ID","Name","Major","Semester", "Total Hours Per Week", "Intern Company","Exchange Country");
+					,"ID","Name","Major","Semester", "Tuition Fee", "Intern Company","Exchange Country");
 			for(int i=0;i<141;i++)System.out.print("=");
 			System.out.println();
 			int j = 1;
