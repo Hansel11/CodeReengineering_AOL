@@ -38,7 +38,7 @@ public class ExchangeStudent extends Student {
 	public int tuitionFee() {
 
 		if (total() > 7500000) {
-			return (7 / 6) * total();
+			return (int)((double)total() * 1.25);
 		} else {
 			return total();
 		}

@@ -36,9 +36,8 @@ public class RegularStudent extends Student {
 
 	@Override
 	public int tuitionFee() {
-
 		if (total() > 6000000) {
-			return total() * 6/5;
+			return (int)((double)total() * 1.2);
 		} else {
 			return total();
 		}

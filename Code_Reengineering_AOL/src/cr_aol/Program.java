@@ -72,7 +72,7 @@ public class Program {
 		System.out.println("Student List");
 		IOUtility.printLine();
 		System.out.printf("| No. | %-5s | %-20s | %-20s | %-8s | %-20s | %-20s | %-20s |\n"
-				,"ID","Name","Major","Semester", "Total Hours Per Week", "Intern Company","Exchange Country");
+				,"ID","Name","Major","Semester", "Tuition Fee", "Intern Company","Exchange Country");
 		IOUtility.printLine();
 		int i = 1;
 		for (Student student : students) {
